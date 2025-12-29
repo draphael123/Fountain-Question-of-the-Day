@@ -57,6 +57,113 @@ class QuestionOfTheDay {
         return this.questions.find(q => q.date === todayKey) || this.getDefaultQuestion();
     }
 
+    getCorrectAnswer(questionText) {
+        // Map questions to their correct answers (with variations)
+        const answerMap = {
+            // Pharmacy Trivia
+            'Which pharmacy serves as a backup for Semaglutide, Enclomiphene, and Testosterone Cypionate?': ['absolute', 'absolute pharmacy'],
+            'True or False: Absolute Pharmacy requires signatures for delivery.': ['false', 'f', 'no'],
+            'Which three states does Absolute Pharmacy NOT ship to?': ['va, al, ny', 'virginia, alabama, new york', 'va al ny', 'virginia alabama new york'],
+            'Which pharmacies primarily fill Semaglutide, Enclomiphene, and Testosterone Cypionate?': ['pharmacy hub', 'curexa', 'pharmacy hub or curexa', 'pharmacy hub and curexa', 'curexa or pharmacy hub'],
+            'True or False: We currently use Absolute Pharmacy for patient orders.': ['false', 'f', 'no'],
+            'Why should Absolute Pharmacy only be used when partner pharmacies are unable to supply medications?': ['higher processing costs', 'processing costs are higher', 'costs are higher', 'more expensive', 'higher costs'],
+            'What is the Absolute Rx Portal used for?': ['refills and clarification', 'refills', 'clarification', 'refills and clarification only'],
+            'Which pharmacy requires signatures for delivery?': ['curexa', 'curexa pharmacy'],
+            'Name the three medications that Absolute Pharmacy serves as backup for.': ['semaglutide, enclomiphene, testosterone cypionate', 'semaglutide enclomiphene testosterone cypionate'],
+            'What is the primary purpose of the Pharmacy Hub workflow?': ['fill medications', 'fill prescriptions', 'primary pharmacy', 'medication fulfillment'],
+            'What is the Belmar Pharmacy workflow used for?': ['belmar pharmacy', 'belmar', 'belmar orders'],
+            // Order Management Trivia
+            'In which order stages cannot orders be cancelled?': ['verification', 'shipping', 'verification and shipping', 'verification or shipping'],
+            'What should you do if an order is sent to Absolute Pharmacy?': ['error', 'it was done in error', 'contact', 'fix', 'correct'],
+            'What is the Cancellation workflow used for?': ['cancellations', 'cancel orders', 'order cancellations'],
+            'What is the General Refill workflow for?': ['refills', 'general refills', 'refill requests'],
+            'What is the Early Refill workflow for?': ['early refills', 'early refill requests'],
+            'What is the purpose of the "Patients Upset With Long Order" workflow?': ['patient concerns', 'order delays', 'long orders', 'patient complaints'],
+            // Lab Workflows Trivia
+            'Which workflow handles Quest Diagnostics lab orders?': ['quest diagnostics', 'quest diagnostics workflow', 'quest'],
+            'What is the Getlabs workflow used for?': ['lab orders', 'labs', 'lab processing', 'getlabs'],
+            'Which workflow handles Labcorp orders?': ['labcorp', 'labcorp workflow'],
+            'What is the Labcorp Link workflow for?': ['labcorp link', 'labcorp', 'lab orders'],
+            'What is the purpose of monitoring labs?': ['monitor labs', 'lab monitoring', 'track labs'],
+            // Communication Workflows Trivia
+            'Which workflow handles sharing medical information?': ['sharing medical info', 'sharing medical information', 'medical info'],
+            'What is the Intercom workflow used for?': ['intercom', 'intercom communication', 'customer communication'],
+            'What is the WhatsApp workflow used for?': ['whatsapp', 'whatsapp communication', 'whatsapp messages'],
+            'Which workflow handles Intercom phone calls?': ['intercom', 'intercom workflow', 'intercom phone calls'],
+            'What is the purpose of the Routing Workflow?': ['routing', 'route messages', 'team routing'],
+            // Medication & Supplies Trivia
+            'What is the Syringes workflow used for?': ['syringes', 'syringe orders', 'syringe requests'],
+            'What is the General Medications workflow for?': ['medications', 'general medications', 'medication orders'],
+            'What does the Controlled Substance workflow handle?': ['controlled substances', 'controlled substance', 'controlled substance orders'],
+            'Which medications are primarily filled through Pharmacy Hub or Curexa?': ['semaglutide', 'enclomiphene', 'testosterone cypionate', 'semaglutide enclomiphene testosterone cypionate'],
+            // Platform & Tools Trivia
+            'Which platform workflow uses Retool?': ['retool', 'retool workflow'],
+            'What is the Akute workflow used for?': ['akute', 'akute platform'],
+            'What is the Retool workflow used for?': ['retool', 'retool platform'],
+            'Which workflow handles General Tech Issues?': ['general tech issues', 'tech issues', 'general tech issues workflow'],
+            // Compliance & Quality Trivia
+            'What is the purpose of the Compliance Workflow?': ['compliance', 'ensure compliance', 'compliance protocols'],
+            'What does the Compliance Workflow ensure?': ['compliance', 'regulatory compliance', 'compliance protocols'],
+            // Financial & Billing Trivia
+            'Which workflow handles refund requests?': ['refunds', 'refunds workflow', 'stripe refunds'],
+            'What is the Stripe Refunds Workflow for?': ['refunds', 'stripe refunds', 'refund processing'],
+            'What is the Itemized Receipt process for?': ['itemized receipts', 'receipts', 'itemized receipt'],
+            'What is the Billing workflow used for?': ['billing', 'billing issues', 'payment processing'],
+            // Other Workflows Trivia
+            'What is the Referral process used for?': ['referrals', 'referral process', 'referral requests'],
+            'Which workflow handles Trustpilot requests?': ['trustpilot', 'trustpilot workflow'],
+            'What is the purpose of the Trustpilot workflow?': ['trustpilot', 'reviews', 'customer reviews'],
+            'What does the "Unknown Leads" tag folder indicate?': ['unknown leads', 'unidentified leads', 'new leads'],
+            'What is the "Critical Escalations" tag folder for?': ['critical escalations', 'escalations', 'urgent issues'],
+            'What is the "Extra Medication" tag folder used for?': ['extra medication', 'additional medication', 'medication issues'],
+            // Process Knowledge Trivia
+            'What should you remember about Absolute Pharmacy\'s processing costs?': ['higher', 'more expensive', 'costs are higher', 'higher processing costs'],
+            'What is the difference between Absolute and Curexa regarding delivery signatures?': ['absolute no signature', 'curexa requires signature', 'absolute does not require', 'curexa requires'],
+            'Which states are excluded from Absolute Pharmacy shipping?': ['va, al, ny', 'virginia, alabama, new york', 'va al ny'],
+            'What is the primary reason Absolute Pharmacy should be used sparingly?': ['higher processing costs', 'processing costs are higher', 'costs are higher', 'more expensive']
+        };
+        
+        return answerMap[questionText] || null;
+    }
+
+    checkAnswer(userAnswer, correctAnswers) {
+        if (!correctAnswers || correctAnswers.length === 0) return null;
+        
+        const normalizedUserAnswer = userAnswer.toLowerCase().trim();
+        
+        // Check for exact match or contains match
+        for (const correctAnswer of correctAnswers) {
+            const normalizedCorrect = correctAnswer.toLowerCase().trim();
+            
+            // Exact match
+            if (normalizedUserAnswer === normalizedCorrect) {
+                return true;
+            }
+            
+            // Contains match (for longer answers)
+            if (normalizedUserAnswer.includes(normalizedCorrect) || normalizedCorrect.includes(normalizedUserAnswer)) {
+                return true;
+            }
+            
+            // Check if all key words are present (for multi-word answers)
+            const correctWords = normalizedCorrect.split(/[\s,]+/).filter(w => w.length > 2);
+            const userWords = normalizedUserAnswer.split(/[\s,]+/).filter(w => w.length > 2);
+            
+            if (correctWords.length > 0) {
+                const matchingWords = correctWords.filter(word => 
+                    userWords.some(uw => uw.includes(word) || word.includes(uw))
+                );
+                
+                // If most key words match, consider it correct
+                if (matchingWords.length >= Math.ceil(correctWords.length * 0.7)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
     getDefaultQuestion() {
         // Trivia questions based on Fountain Workflows document - testing knowledge of workflows and processes
         const defaultQuestions = [
@@ -124,6 +231,10 @@ class QuestionOfTheDay {
         const todayKey = this.getTodayKey();
         const question = this.getTodayQuestion();
         
+        // Check if answer is correct
+        const correctAnswers = this.getCorrectAnswer(question.text);
+        const isCorrect = this.checkAnswer(answerText, correctAnswers);
+        
         if (!this.answers[todayKey]) {
             this.answers[todayKey] = [];
         }
@@ -132,22 +243,36 @@ class QuestionOfTheDay {
             id: Date.now(),
             text: answerText,
             timestamp: new Date().toISOString(),
-            questionId: question.id || 'default'
+            questionId: question.id || 'default',
+            isCorrect: isCorrect,
+            correctAnswer: correctAnswers ? correctAnswers[0] : null
         };
 
         this.answers[todayKey].push(answer);
         this.saveAnswers();
 
-        // Clear input and show success
+        // Clear input and show result
         document.getElementById('answerInput').value = '';
-        statusDiv.className = 'answer-status success';
-        statusDiv.textContent = 'Your answer has been submitted successfully!';
+        
+        if (isCorrect === true) {
+            statusDiv.className = 'answer-status success';
+            statusDiv.innerHTML = '✓ <strong>Correct!</strong> Great job!';
+        } else if (isCorrect === false) {
+            statusDiv.className = 'answer-status error';
+            const correctAnswerText = correctAnswers ? `The correct answer is: <strong>${correctAnswers[0]}</strong>` : '';
+            statusDiv.innerHTML = `✗ <strong>Incorrect.</strong> ${correctAnswerText}`;
+        } else {
+            // No answer key available (for custom questions)
+            statusDiv.className = 'answer-status success';
+            statusDiv.textContent = 'Your answer has been submitted successfully!';
+        }
+        
         statusDiv.style.display = 'block';
 
-        // Hide status after 3 seconds
+        // Hide status after 5 seconds (longer for trivia feedback)
         setTimeout(() => {
             statusDiv.style.display = 'none';
-        }, 3000);
+        }, 5000);
 
         // Refresh answers display
         this.displayAnswers();
@@ -171,11 +296,19 @@ class QuestionOfTheDay {
                 hour12: true 
             });
 
+            let correctnessBadge = '';
+            if (answer.isCorrect === true) {
+                correctnessBadge = '<span class="correct-badge">✓ Correct</span>';
+            } else if (answer.isCorrect === false) {
+                correctnessBadge = '<span class="incorrect-badge">✗ Incorrect</span>';
+            }
+
             return `
                 <div class="answer-card">
                     <div class="answer-text">${this.escapeHtml(answer.text)}</div>
                     <div class="answer-meta">
                         <span>Submitted at ${timeString}</span>
+                        ${correctnessBadge}
                     </div>
                 </div>
             `;
@@ -262,11 +395,20 @@ class QuestionOfTheDay {
                                 minute: '2-digit',
                                 hour12: true 
                             });
+
+                            let correctnessBadge = '';
+                            if (answer.isCorrect === true) {
+                                correctnessBadge = '<span class="correct-badge">✓ Correct</span>';
+                            } else if (answer.isCorrect === false) {
+                                correctnessBadge = '<span class="incorrect-badge">✗ Incorrect</span>';
+                            }
+
                             return `
                                 <div class="answer-card">
                                     <div class="answer-text">${this.escapeHtml(answer.text)}</div>
                                     <div class="answer-meta">
                                         <span>Submitted at ${timeString}</span>
+                                        ${correctnessBadge}
                                     </div>
                                 </div>
                             `;

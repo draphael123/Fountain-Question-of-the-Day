@@ -238,6 +238,28 @@ main {
     align-items: center;
     font-size: 0.85rem;
     color: var(--text-secondary);
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.correct-badge {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border: 1px solid #10b981;
+}
+
+.incorrect-badge {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border: 1px solid #ef4444;
 }
 
 .no-answers {
