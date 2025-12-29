@@ -58,10 +58,25 @@ class QuestionOfTheDay {
     }
 
     getDefaultQuestion() {
-        // If no question for today, return a default one
+        // If no question for today, return a default one tailored to pharmacy operations
+        const defaultQuestions = [
+            'What is one workflow improvement you noticed today that could enhance patient care?',
+            'How did you ensure accuracy in today\'s pharmacy operations?',
+            'What patient interaction made a positive impact on your day?',
+            'What is one thing you learned about our pharmacy processes today?',
+            'How did you contribute to improving our team\'s efficiency today?',
+            'What challenge did you overcome in today\'s workflow?',
+            'How did you ensure patient safety and medication accuracy today?',
+            'What collaboration with a team member helped solve a problem today?'
+        ];
+        
+        // Use day of year to cycle through questions
+        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const questionIndex = dayOfYear % defaultQuestions.length;
+        
         return {
             id: 'default',
-            text: 'What is one thing you\'re grateful for today?',
+            text: defaultQuestions[questionIndex],
             date: this.getTodayKey(),
             number: 1
         };
@@ -295,13 +310,58 @@ class QuestionOfTheDay {
         if (stored) {
             return JSON.parse(stored);
         }
-        // Initialize with a default question for today
-        return [{
-            id: 'default',
-            text: 'What is one thing you\'re grateful for today?',
-            date: this.getTodayKey(),
-            number: 1
-        }];
+        // Initialize with pharmacy/healthcare-focused questions for the next 30 days
+        const today = new Date();
+        const questions = [];
+        const questionPool = [
+            'What workflow improvement did you implement or notice today?',
+            'How did you ensure medication accuracy in today\'s operations?',
+            'What patient interaction stood out to you today and why?',
+            'What is one thing you learned about our pharmacy processes today?',
+            'How did you contribute to team efficiency today?',
+            'What challenge did you overcome in today\'s workflow?',
+            'How did you ensure patient safety in your work today?',
+            'What collaboration helped solve a problem today?',
+            'What best practice did you follow or share with the team today?',
+            'How did you handle a complex prescription or order today?',
+            'What communication strategy worked well for you today?',
+            'What quality check or verification did you perform today?',
+            'How did you prioritize tasks to improve patient care today?',
+            'What feedback did you receive or give that improved operations?',
+            'What system or tool helped you be more efficient today?',
+            'How did you ensure compliance with pharmacy protocols today?',
+            'What patient concern did you help resolve today?',
+            'What cross-functional collaboration improved a process today?',
+            'What detail did you catch that prevented a potential issue?',
+            'How did you balance speed and accuracy in your work today?',
+            'What training or knowledge sharing happened in your team today?',
+            'What process did you streamline or optimize today?',
+            'How did you maintain quality standards under pressure today?',
+            'What patient outcome are you most proud of from today?',
+            'What technology or resource helped you serve patients better today?',
+            'How did you ensure proper documentation today?',
+            'What proactive step did you take to prevent an issue?',
+            'What teamwork moment made a difference today?',
+            'How did you adapt when a process didn\'t go as planned?',
+            'What positive change did you observe in our operations today?'
+        ];
+        
+        // Create questions for the next 30 days
+        for (let i = 0; i < 30; i++) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+            const dateKey = date.toISOString().split('T')[0];
+            const questionIndex = i % questionPool.length;
+            
+            questions.push({
+                id: `pregen_${i}`,
+                text: questionPool[questionIndex],
+                date: dateKey,
+                number: i + 1
+            });
+        }
+        
+        return questions;
     }
 
     saveQuestions() {
