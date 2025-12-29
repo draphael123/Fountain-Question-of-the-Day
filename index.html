@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fountain Vitality - Question of the Day</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Fountain Vitality</h1>
+                <p class="tagline">Question of the Day</p>
+            </div>
+            <button class="admin-toggle" id="adminToggle">Admin</button>
+        </header>
+
+        <main>
+            <!-- Question Display Section -->
+            <section class="question-section" id="questionSection">
+                <div class="date-badge" id="dateBadge"></div>
+                <h2 class="question-text" id="questionText">Loading question...</h2>
+                <div class="question-meta">
+                    <span class="question-number" id="questionNumber"></span>
+                </div>
+            </section>
+
+            <!-- Answer Section -->
+            <section class="answer-section" id="answerSection">
+                <h3>Your Answer</h3>
+                <textarea 
+                    id="answerInput" 
+                    placeholder="Share your thoughts..."
+                    rows="5"
+                ></textarea>
+                <button class="submit-btn" id="submitBtn">Submit Answer</button>
+                <div class="answer-status" id="answerStatus"></div>
+            </section>
+
+            <!-- Previous Answers Section -->
+            <section class="answers-list" id="answersList">
+                <h3>Team Responses</h3>
+                <div class="answers-container" id="answersContainer">
+                    <p class="no-answers">No responses yet. Be the first to share!</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Admin Panel -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-content">
+                <div class="admin-header">
+                    <h2>Admin Panel</h2>
+                    <button class="close-admin" id="closeAdmin">×</button>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Add New Question</h3>
+                    <textarea 
+                        id="newQuestionInput" 
+                        placeholder="Enter your question here..."
+                        rows="3"
+                    ></textarea>
+                    <input 
+                        type="date" 
+                        id="questionDate" 
+                        class="date-input"
+                    >
+                    <button class="admin-btn" id="addQuestionBtn">Add Question</button>
+                </div>
+
+                <div class="admin-section">
+                    <h3>Manage Questions</h3>
+                    <div class="questions-list" id="questionsList"></div>
+                </div>
+
+                <div class="admin-section">
+                    <h3>View All Answers</h3>
+                    <div class="all-answers" id="allAnswers"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
