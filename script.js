@@ -58,16 +58,38 @@ class QuestionOfTheDay {
     }
 
     getDefaultQuestion() {
-        // If no question for today, return a default one tailored to pharmacy operations
+        // Questions based on Fountain Workflows document - specific workflows and processes
         const defaultQuestions = [
-            'What is one workflow improvement you noticed today that could enhance patient care?',
-            'How did you ensure accuracy in today\'s pharmacy operations?',
-            'What patient interaction made a positive impact on your day?',
-            'What is one thing you learned about our pharmacy processes today?',
-            'How did you contribute to improving our team\'s efficiency today?',
-            'What challenge did you overcome in today\'s workflow?',
-            'How did you ensure patient safety and medication accuracy today?',
-            'What collaboration with a team member helped solve a problem today?'
+            'How did you handle a Pharmacy Hub workflow today, and what went well?',
+            'What did you learn about the Absolute Pharmacy workflow process today?',
+            'How did you navigate the Belmar Pharmacy workflow today?',
+            'What challenge did you face with a General Refill request today?',
+            'How did you handle an Early Refill request following our workflow?',
+            'What did you learn about the Compliance Workflow today?',
+            'How did you process a Refunds Workflow request today?',
+            'What experience did you have with the Quest Diagnostics workflow today?',
+            'How did you use the Getlabs workflow to help a patient today?',
+            'What did you learn about the Sharing Medical Info workflow today?',
+            'How did you handle a Syringes workflow request today?',
+            'What improvement did you notice in the Intercom workflow today?',
+            'How did you use Retool to streamline a process today?',
+            'What did you learn about the Akute workflow today?',
+            'How did you handle a Labcorp workflow request today?',
+            'What challenge did you overcome in the Cancellation process today?',
+            'How did you handle a patient upset with a long order delay today?',
+            'What did you learn about routing orders through our pharmacy workflows today?',
+            'How did you ensure proper handling of Semaglutide, Enclomiphene, or Testosterone Cypionate orders today?',
+            'What did you learn about the Referral process today?',
+            'How did you handle a Trustpilot workflow request today?',
+            'What did you learn about the WhatsApp workflow today?',
+            'How did you process an Itemized Receipt request today?',
+            'What improvement did you make to a workflow process today?',
+            'How did you handle a General Tech Issues workflow today?',
+            'What did you learn about Controlled Substance handling today?',
+            'How did you ensure compliance with our pharmacy protocols today?',
+            'What patient communication through Intercom made a difference today?',
+            'How did you handle a billing or Stripe-related workflow today?',
+            'What workflow efficiency did you improve today?'
         ];
         
         // Use day of year to cycle through questions
@@ -310,40 +332,61 @@ class QuestionOfTheDay {
         if (stored) {
             return JSON.parse(stored);
         }
-        // Initialize with pharmacy/healthcare-focused questions for the next 30 days
+        // Initialize with questions based on Fountain Workflows document - specific workflows and processes
         const today = new Date();
         const questions = [];
         const questionPool = [
+            // Pharmacy Workflows
+            'How did you handle a Pharmacy Hub workflow today, and what went well?',
+            'What did you learn about the Absolute Pharmacy workflow process today?',
+            'How did you navigate the Belmar Pharmacy workflow today?',
+            // Refill Processes
+            'What challenge did you face with a General Refill request today?',
+            'How did you handle an Early Refill request following our workflow?',
+            'What did you learn about processing refills efficiently today?',
+            // Compliance & Quality
+            'What did you learn about the Compliance Workflow today?',
+            'How did you ensure compliance with our pharmacy protocols today?',
+            'What quality check did you perform in a workflow today?',
+            // Financial & Billing
+            'How did you process a Refunds Workflow request today?',
+            'How did you handle a billing or Stripe-related workflow today?',
+            'What did you learn about the Itemized Receipt process today?',
+            // Lab Workflows
+            'What experience did you have with the Quest Diagnostics workflow today?',
+            'How did you use the Getlabs workflow to help a patient today?',
+            'How did you handle a Labcorp workflow request today?',
+            // Patient Communication
+            'What did you learn about the Sharing Medical Info workflow today?',
+            'What improvement did you notice in the Intercom workflow today?',
+            'What patient communication through Intercom made a difference today?',
+            'What did you learn about the WhatsApp workflow today?',
+            // Medication & Supplies
+            'How did you handle a Syringes workflow request today?',
+            'What did you learn about handling Semaglutide orders today?',
+            'How did you ensure proper handling of Enclomiphene or Testosterone Cypionate orders today?',
+            'What did you learn about Controlled Substance handling today?',
+            // Platform & Tools
+            'How did you use Retool to streamline a process today?',
+            'What did you learn about the Akute workflow today?',
+            'What system or tool helped you be more efficient today?',
+            // Order Management
+            'How did you handle a patient upset with a long order delay today?',
+            'What challenge did you overcome in the Cancellation process today?',
+            'How did you handle routing orders through our pharmacy workflows today?',
+            'What did you learn about order processing efficiency today?',
+            // Other Workflows
+            'What did you learn about the Referral process today?',
+            'How did you handle a Trustpilot workflow request today?',
+            'How did you handle a General Tech Issues workflow today?',
+            // General Process Improvement
             'What workflow improvement did you implement or notice today?',
-            'How did you ensure medication accuracy in today\'s operations?',
-            'What patient interaction stood out to you today and why?',
-            'What is one thing you learned about our pharmacy processes today?',
+            'What process did you streamline or optimize today?',
             'How did you contribute to team efficiency today?',
-            'What challenge did you overcome in today\'s workflow?',
-            'How did you ensure patient safety in your work today?',
             'What collaboration helped solve a problem today?',
             'What best practice did you follow or share with the team today?',
-            'How did you handle a complex prescription or order today?',
-            'What communication strategy worked well for you today?',
-            'What quality check or verification did you perform today?',
-            'How did you prioritize tasks to improve patient care today?',
-            'What feedback did you receive or give that improved operations?',
-            'What system or tool helped you be more efficient today?',
-            'How did you ensure compliance with pharmacy protocols today?',
-            'What patient concern did you help resolve today?',
-            'What cross-functional collaboration improved a process today?',
             'What detail did you catch that prevented a potential issue?',
-            'How did you balance speed and accuracy in your work today?',
-            'What training or knowledge sharing happened in your team today?',
-            'What process did you streamline or optimize today?',
-            'How did you maintain quality standards under pressure today?',
-            'What patient outcome are you most proud of from today?',
-            'What technology or resource helped you serve patients better today?',
-            'How did you ensure proper documentation today?',
-            'What proactive step did you take to prevent an issue?',
-            'What teamwork moment made a difference today?',
-            'How did you adapt when a process didn\'t go as planned?',
-            'What positive change did you observe in our operations today?'
+            'How did you adapt when a workflow didn\'t go as planned today?'
         ];
         
         // Create questions for the next 30 days
