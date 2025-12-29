@@ -170,21 +170,75 @@ main {
     color: var(--text-primary);
 }
 
-#answerInput {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    resize: vertical;
-    transition: border-color 0.3s ease;
-    margin-bottom: 15px;
+.multiple-choice-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-#answerInput:focus {
-    outline: none;
+.choice-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 15px 20px;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.choice-btn:hover {
     border-color: var(--primary-color);
+    background: var(--bg-secondary);
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.choice-btn.selected {
+    border-color: var(--primary-color);
+    background: #eff6ff;
+    box-shadow: var(--shadow-md);
+}
+
+.choice-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex-shrink: 0;
+}
+
+.choice-btn.selected .choice-letter {
+    background: var(--primary-color);
+    color: white;
+}
+
+.choice-text {
+    flex: 1;
+    color: var(--text-primary);
+}
+
+.submit-btn:disabled {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.submit-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 .submit-btn {

@@ -75,8 +75,9 @@ class QuestionOfTheDay {
         }
         this.saveCurrentQuestionIndex();
         this.displayCurrentQuestion();
-        // Clear answer input when changing questions
-        document.getElementById('answerInput').value = '';
+        // Clear selection when changing questions
+        document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+        document.getElementById('submitBtn').disabled = true;
         document.getElementById('answerStatus').style.display = 'none';
     }
 
@@ -88,8 +89,9 @@ class QuestionOfTheDay {
         }
         this.saveCurrentQuestionIndex();
         this.displayCurrentQuestion();
-        // Clear answer input when changing questions
-        document.getElementById('answerInput').value = '';
+        // Clear selection when changing questions
+        document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+        document.getElementById('submitBtn').disabled = true;
         document.getElementById('answerStatus').style.display = 'none';
     }
 
@@ -249,122 +251,524 @@ class QuestionOfTheDay {
     }
 
     createQuestionPool() {
-        // Create a pool of 100 trivia questions based on Fountain Workflows document
-        const questionTexts = [
+        // Create a pool of 100 multiple choice questions based on Fountain Workflows document
+        const questions = [
             // Pharmacy Questions (1-20)
-            'Which pharmacy serves as a backup for Semaglutide, Enclomiphene, and Testosterone Cypionate?',
-            'True or False: Absolute Pharmacy requires signatures for delivery.',
-            'Which three states does Absolute Pharmacy NOT ship to?',
-            'Which pharmacies primarily fill Semaglutide, Enclomiphene, and Testosterone Cypionate?',
-            'True or False: We currently use Absolute Pharmacy for patient orders.',
-            'Why should Absolute Pharmacy only be used when partner pharmacies are unable to supply medications?',
-            'What is the Absolute Rx Portal used for?',
-            'Which pharmacy requires signatures for delivery?',
-            'Name the three medications that Absolute Pharmacy serves as backup for.',
-            'What is the primary purpose of the Pharmacy Hub workflow?',
-            'What is the Belmar Pharmacy workflow used for?',
-            'What should you remember about Absolute Pharmacy\'s processing costs?',
-            'What is the difference between Absolute and Curexa regarding delivery signatures?',
-            'Which states are excluded from Absolute Pharmacy shipping?',
-            'What is the primary reason Absolute Pharmacy should be used sparingly?',
-            'What should you do if an order is sent to Absolute Pharmacy?',
-            'Which pharmacy has higher processing costs?',
-            'Does Absolute Pharmacy ship to Virginia?',
-            'Does Absolute Pharmacy ship to Alabama?',
-            'Does Absolute Pharmacy ship to New York?',
+            {
+                text: 'Which pharmacy serves as a backup for Semaglutide, Enclomiphene, and Testosterone Cypionate?',
+                options: ['Absolute Pharmacy', 'Curexa Pharmacy', 'Pharmacy Hub', 'Belmar Pharmacy'],
+                correct: 0
+            },
+            {
+                text: 'Does Absolute Pharmacy require signatures for delivery?',
+                options: ['Yes', 'No'],
+                correct: 1
+            },
+            {
+                text: 'Which three states does Absolute Pharmacy NOT ship to?',
+                options: ['VA, AL, NY', 'CA, TX, FL', 'NY, CA, TX', 'FL, AL, VA'],
+                correct: 0
+            },
+            {
+                text: 'Which pharmacies primarily fill Semaglutide, Enclomiphene, and Testosterone Cypionate?',
+                options: ['Pharmacy Hub and Curexa', 'Absolute and Belmar', 'Curexa only', 'Pharmacy Hub only'],
+                correct: 0
+            },
+            {
+                text: 'Do we currently use Absolute Pharmacy for patient orders?',
+                options: ['Yes', 'No'],
+                correct: 1
+            },
+            {
+                text: 'Why should Absolute Pharmacy only be used when partner pharmacies are unable to supply medications?',
+                options: ['Higher processing costs', 'Slower delivery', 'Limited medications', 'Poor quality'],
+                correct: 0
+            },
+            {
+                text: 'What is the Absolute Rx Portal used for?',
+                options: ['Refills and clarification only', 'New orders', 'Billing', 'Customer service'],
+                correct: 0
+            },
+            {
+                text: 'Which pharmacy requires signatures for delivery?',
+                options: ['Curexa', 'Absolute', 'Pharmacy Hub', 'Belmar'],
+                correct: 0
+            },
+            {
+                text: 'Which medications does Absolute Pharmacy serve as backup for?',
+                options: ['Semaglutide, Enclomiphene, Testosterone Cypionate', 'Only Semaglutide', 'Only Testosterone', 'All medications'],
+                correct: 0
+            },
+            {
+                text: 'What is the primary purpose of the Pharmacy Hub workflow?',
+                options: ['Fill medications', 'Handle refunds', 'Process labs', 'Manage billing'],
+                correct: 0
+            },
+            {
+                text: 'What is the Belmar Pharmacy workflow used for?',
+                options: ['Belmar pharmacy orders', 'Lab orders', 'Refunds', 'Billing'],
+                correct: 0
+            },
+            {
+                text: 'Are Absolute Pharmacy\'s processing costs higher than partner pharmacies?',
+                options: ['Yes', 'No'],
+                correct: 0
+            },
+            {
+                text: 'What is the difference between Absolute and Curexa regarding delivery signatures?',
+                options: ['Absolute does not require, Curexa requires', 'Both require', 'Neither requires', 'Curexa does not require'],
+                correct: 0
+            },
+            {
+                text: 'Which states are excluded from Absolute Pharmacy shipping?',
+                options: ['VA, AL, NY', 'CA, TX, FL', 'All states', 'None'],
+                correct: 0
+            },
+            {
+                text: 'What is the primary reason Absolute Pharmacy should be used sparingly?',
+                options: ['Higher processing costs', 'Slower service', 'Limited availability', 'Quality issues'],
+                correct: 0
+            },
+            {
+                text: 'If an order is sent to Absolute Pharmacy, what should you do?',
+                options: ['It was done in error - correct it', 'Process normally', 'Contact patient', 'Ignore it'],
+                correct: 0
+            },
+            {
+                text: 'Which pharmacy has higher processing costs?',
+                options: ['Absolute', 'Curexa', 'Pharmacy Hub', 'Belmar'],
+                correct: 0
+            },
+            {
+                text: 'Does Absolute Pharmacy ship to Virginia?',
+                options: ['No', 'Yes'],
+                correct: 0
+            },
+            {
+                text: 'Does Absolute Pharmacy ship to Alabama?',
+                options: ['No', 'Yes'],
+                correct: 0
+            },
+            {
+                text: 'Does Absolute Pharmacy ship to New York?',
+                options: ['No', 'Yes'],
+                correct: 0
+            },
             // Order Management Questions (21-35)
-            'In which order stages cannot orders be cancelled?',
-            'What is the Cancellation workflow used for?',
-            'What is the General Refill workflow for?',
-            'What is the Early Refill workflow for?',
-            'What is the purpose of the "Patients Upset With Long Order" workflow?',
-            'What happens when an order reaches the verification stage?',
-            'What happens when an order reaches the shipping stage?',
-            'Can orders be cancelled during verification?',
-            'Can orders be cancelled during shipping?',
-            'What is the purpose of order routing?',
-            'What should you do when a patient is upset about order delays?',
-            'What is the difference between General Refill and Early Refill?',
-            'How do you handle order delays?',
-            'What is the purpose of tracking order status?',
-            'What information is needed for order cancellation?',
+            {
+                text: 'In which order stages cannot orders be cancelled?',
+                options: ['Verification and shipping', 'Pending only', 'All stages', 'None'],
+                correct: 0
+            },
+            {
+                text: 'What is the Cancellation workflow used for?',
+                options: ['Cancel orders', 'Process refunds', 'Handle delays', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the General Refill workflow for?',
+                options: ['Process refill requests', 'Handle new orders', 'Manage billing', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the Early Refill workflow for?',
+                options: ['Process early refill requests', 'Handle cancellations', 'Manage labs', 'Track orders'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of the "Patients Upset With Long Order" workflow?',
+                options: ['Handle patient concerns about delays', 'Process refunds', 'Cancel orders', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'Can orders be cancelled during verification?',
+                options: ['No', 'Yes'],
+                correct: 0
+            },
+            {
+                text: 'Can orders be cancelled during shipping?',
+                options: ['No', 'Yes'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of order routing?',
+                options: ['Direct orders to correct team', 'Process payments', 'Track shipments', 'Handle refunds'],
+                correct: 0
+            },
+            {
+                text: 'What should you do when a patient is upset about order delays?',
+                options: ['Use "Patients Upset With Long Order" workflow', 'Cancel the order', 'Refund immediately', 'Ignore the concern'],
+                correct: 0
+            },
+            {
+                text: 'What is the difference between General Refill and Early Refill?',
+                options: ['Timing of refill request', 'Medication type', 'Pharmacy used', 'None'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of tracking order status?',
+                options: ['Monitor order progress', 'Process payments', 'Handle refunds', 'Cancel orders'],
+                correct: 0
+            },
+            {
+                text: 'What information is needed for order cancellation?',
+                options: ['Order details', 'Patient payment info', 'Shipping address', 'Medication type'],
+                correct: 0
+            },
+            {
+                text: 'What happens when an order reaches the verification stage?',
+                options: ['Cannot be cancelled', 'Can be cancelled', 'Automatically ships', 'Requires payment'],
+                correct: 0
+            },
+            {
+                text: 'What happens when an order reaches the shipping stage?',
+                options: ['Cannot be cancelled', 'Can be cancelled', 'Requires signature', 'Needs verification'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle order delays?',
+                options: ['Use appropriate delay workflow', 'Cancel order', 'Refund immediately', 'Ignore'],
+                correct: 0
+            },
             // Lab Workflows Questions (36-50)
-            'Which workflow handles Quest Diagnostics lab orders?',
-            'What is the Getlabs workflow used for?',
-            'Which workflow handles Labcorp orders?',
-            'What is the Labcorp Link workflow for?',
-            'What is the purpose of monitoring labs?',
-            'How do you process Quest Diagnostics orders?',
-            'How do you process Getlabs orders?',
-            'How do you process Labcorp orders?',
-            'What is the difference between Quest Diagnostics and Labcorp workflows?',
-            'What information is needed for lab orders?',
-            'How do you track lab results?',
-            'What is the purpose of lab monitoring?',
-            'What should you do if lab results are delayed?',
-            'How do you handle lab order issues?',
-            'What is the Labcorp Link used for?',
+            {
+                text: 'Which workflow handles Quest Diagnostics lab orders?',
+                options: ['Quest Diagnostics workflow', 'Getlabs workflow', 'Labcorp workflow', 'General lab workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the Getlabs workflow used for?',
+                options: ['Process Getlabs lab orders', 'Handle Quest orders', 'Manage Labcorp', 'Track all labs'],
+                correct: 0
+            },
+            {
+                text: 'Which workflow handles Labcorp orders?',
+                options: ['Labcorp workflow', 'Quest workflow', 'Getlabs workflow', 'General lab workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the Labcorp Link workflow for?',
+                options: ['Access Labcorp orders', 'Process Quest orders', 'Handle Getlabs', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of monitoring labs?',
+                options: ['Track lab results and orders', 'Process payments', 'Handle refunds', 'Cancel orders'],
+                correct: 0
+            },
+            {
+                text: 'How do you process Quest Diagnostics orders?',
+                options: ['Use Quest Diagnostics workflow', 'Use Getlabs workflow', 'Use Labcorp workflow', 'General process'],
+                correct: 0
+            },
+            {
+                text: 'How do you process Getlabs orders?',
+                options: ['Use Getlabs workflow', 'Use Quest workflow', 'Use Labcorp workflow', 'General process'],
+                correct: 0
+            },
+            {
+                text: 'How do you process Labcorp orders?',
+                options: ['Use Labcorp workflow', 'Use Quest workflow', 'Use Getlabs workflow', 'General process'],
+                correct: 0
+            },
+            {
+                text: 'What is the difference between Quest Diagnostics and Labcorp workflows?',
+                options: ['Different lab providers', 'Same process', 'Different medications', 'None'],
+                correct: 0
+            },
+            {
+                text: 'What information is needed for lab orders?',
+                options: ['Lab and patient information', 'Payment info only', 'Shipping address', 'Medication type'],
+                correct: 0
+            },
+            {
+                text: 'How do you track lab results?',
+                options: ['Through lab monitoring', 'Via email only', 'Phone calls', 'Not tracked'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of lab monitoring?',
+                options: ['Track lab results and status', 'Process payments', 'Handle refunds', 'Cancel orders'],
+                correct: 0
+            },
+            {
+                text: 'What should you do if lab results are delayed?',
+                options: ['Follow up with lab provider', 'Cancel order', 'Refund patient', 'Ignore'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle lab order issues?',
+                options: ['Troubleshoot using lab workflow', 'Cancel immediately', 'Refund', 'Ignore'],
+                correct: 0
+            },
+            {
+                text: 'What is the Labcorp Link used for?',
+                options: ['Access Labcorp lab orders', 'Process payments', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
             // Communication Workflows Questions (51-65)
-            'Which workflow handles sharing medical information?',
-            'What is the Intercom workflow used for?',
-            'What is the WhatsApp workflow used for?',
-            'Which workflow handles Intercom phone calls?',
-            'What is the purpose of the Routing Workflow?',
-            'How do you handle patient communications through Intercom?',
-            'How do you handle patient communications through WhatsApp?',
-            'What is the difference between Intercom and WhatsApp workflows?',
-            'When should you use the Sharing Medical Info workflow?',
-            'What information can be shared through the medical info workflow?',
-            'How do you route messages to the correct team?',
-            'What is the purpose of team routing?',
-            'How do you handle urgent patient communications?',
-            'What is the Intercom phone call workflow for?',
-            'How do you document patient communications?',
+            {
+                text: 'Which workflow handles sharing medical information?',
+                options: ['Sharing Medical Info workflow', 'Intercom workflow', 'WhatsApp workflow', 'General communication'],
+                correct: 0
+            },
+            {
+                text: 'What is the Intercom workflow used for?',
+                options: ['Patient communications via Intercom', 'Process orders', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the WhatsApp workflow used for?',
+                options: ['Patient communications via WhatsApp', 'Process orders', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'Which workflow handles Intercom phone calls?',
+                options: ['Intercom workflow', 'WhatsApp workflow', 'General communication', 'Billing workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of the Routing Workflow?',
+                options: ['Route messages to correct team', 'Process payments', 'Handle refunds', 'Track orders'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle patient communications through Intercom?',
+                options: ['Use Intercom workflow', 'Use WhatsApp workflow', 'Email only', 'Phone only'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle patient communications through WhatsApp?',
+                options: ['Use WhatsApp workflow', 'Use Intercom workflow', 'Email only', 'Phone only'],
+                correct: 0
+            },
+            {
+                text: 'What is the difference between Intercom and WhatsApp workflows?',
+                options: ['Different communication platforms', 'Same platform', 'Different medications', 'None'],
+                correct: 0
+            },
+            {
+                text: 'When should you use the Sharing Medical Info workflow?',
+                options: ['When sharing medical information', 'For all communications', 'Only for refunds', 'Never'],
+                correct: 0
+            },
+            {
+                text: 'What information can be shared through the medical info workflow?',
+                options: ['Medical information', 'Payment info', 'Shipping addresses', 'All information'],
+                correct: 0
+            },
+            {
+                text: 'How do you route messages to the correct team?',
+                options: ['Use Routing Workflow', 'Email directly', 'Phone call', 'Ignore'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of team routing?',
+                options: ['Direct messages to appropriate team', 'Process payments', 'Handle refunds', 'Track orders'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle urgent patient communications?',
+                options: ['Escalate appropriately', 'Ignore', 'Delay response', 'Auto-reply'],
+                correct: 0
+            },
+            {
+                text: 'What is the Intercom phone call workflow for?',
+                options: ['Handle Intercom phone calls', 'Process orders', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'How do you document patient communications?',
+                options: ['Record in appropriate workflow', 'Email only', 'Not documented', 'Phone notes only'],
+                correct: 0
+            },
             // Medication & Supplies Questions (66-75)
-            'What is the Syringes workflow used for?',
-            'What is the General Medications workflow for?',
-            'What does the Controlled Substance workflow handle?',
-            'Which medications are primarily filled through Pharmacy Hub or Curexa?',
-            'How do you handle syringe requests?',
-            'How do you handle controlled substance orders?',
-            'What is the difference between general medications and controlled substances?',
-            'What information is needed for medication orders?',
-            'How do you verify medication orders?',
-            'What is the purpose of the medication management workflow?',
+            {
+                text: 'What is the Syringes workflow used for?',
+                options: ['Handle syringe requests', 'Process medications', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the General Medications workflow for?',
+                options: ['Handle general medication orders', 'Process labs', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What does the Controlled Substance workflow handle?',
+                options: ['Controlled substance orders', 'General medications', 'Labs', 'Refunds'],
+                correct: 0
+            },
+            {
+                text: 'Which medications are primarily filled through Pharmacy Hub or Curexa?',
+                options: ['Semaglutide, Enclomiphene, Testosterone Cypionate', 'All medications', 'Only Semaglutide', 'None'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle syringe requests?',
+                options: ['Use Syringes workflow', 'General medication workflow', 'Lab workflow', 'Refund workflow'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle controlled substance orders?',
+                options: ['Use Controlled Substance workflow', 'General medication workflow', 'Lab workflow', 'Refund workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the difference between general medications and controlled substances?',
+                options: ['Regulation level', 'Same thing', 'Different pharmacies', 'None'],
+                correct: 0
+            },
+            {
+                text: 'What information is needed for medication orders?',
+                options: ['Medication and prescription info', 'Payment only', 'Shipping only', 'None'],
+                correct: 0
+            },
+            {
+                text: 'How do you verify medication orders?',
+                options: ['Through verification process', 'No verification', 'Email only', 'Phone only'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of the medication management workflow?',
+                options: ['Manage medication orders', 'Process payments', 'Handle refunds', 'Track shipments'],
+                correct: 0
+            },
             // Platform & Tools Questions (76-85)
-            'Which platform workflow uses Retool?',
-            'What is the Akute workflow used for?',
-            'What is the Retool workflow used for?',
-            'Which workflow handles General Tech Issues?',
-            'How do you use Retool in workflows?',
-            'What is the Akute platform used for?',
-            'How do you handle general tech issues?',
-            'What tools are available in Retool?',
-            'What is the purpose of platform workflows?',
-            'How do you troubleshoot tech issues?',
+            {
+                text: 'Which platform workflow uses Retool?',
+                options: ['Retool workflow', 'Akute workflow', 'General tech workflow', 'Billing workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the Akute workflow used for?',
+                options: ['Akute platform operations', 'Retool operations', 'General tech', 'Billing'],
+                correct: 0
+            },
+            {
+                text: 'What is the Retool workflow used for?',
+                options: ['Retool platform operations', 'Akute operations', 'General tech', 'Billing'],
+                correct: 0
+            },
+            {
+                text: 'Which workflow handles General Tech Issues?',
+                options: ['General Tech Issues workflow', 'Retool workflow', 'Akute workflow', 'Billing workflow'],
+                correct: 0
+            },
+            {
+                text: 'How do you use Retool in workflows?',
+                options: ['Through Retool workflow', 'Direct access only', 'Email', 'Phone'],
+                correct: 0
+            },
+            {
+                text: 'What is the Akute platform used for?',
+                options: ['Akute platform operations', 'Retool operations', 'General tech', 'Billing'],
+                correct: 0
+            },
+            {
+                text: 'How do you handle general tech issues?',
+                options: ['Use General Tech Issues workflow', 'Ignore', 'Email IT', 'Phone support'],
+                correct: 0
+            },
+            {
+                text: 'What tools are available in Retool?',
+                options: ['Retool platform tools', 'No tools', 'External tools only', 'Limited tools'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of platform workflows?',
+                options: ['Manage platform operations', 'Process payments', 'Handle refunds', 'Track orders'],
+                correct: 0
+            },
+            {
+                text: 'How do you troubleshoot tech issues?',
+                options: ['Use appropriate tech workflow', 'Ignore', 'Email only', 'Phone only'],
+                correct: 0
+            },
             // Compliance & Quality Questions (86-90)
-            'What is the purpose of the Compliance Workflow?',
-            'What does the Compliance Workflow ensure?',
-            'How do you ensure compliance with regulations?',
-            'What is checked in the compliance workflow?',
-            'Why is compliance important?',
+            {
+                text: 'What is the purpose of the Compliance Workflow?',
+                options: ['Ensure regulatory compliance', 'Process payments', 'Handle refunds', 'Track orders'],
+                correct: 0
+            },
+            {
+                text: 'What does the Compliance Workflow ensure?',
+                options: ['Regulatory compliance', 'Fast processing', 'Low costs', 'High volume'],
+                correct: 0
+            },
+            {
+                text: 'How do you ensure compliance with regulations?',
+                options: ['Use Compliance Workflow', 'Ignore regulations', 'Email only', 'Phone only'],
+                correct: 0
+            },
+            {
+                text: 'What is checked in the compliance workflow?',
+                options: ['Compliance requirements', 'Payment info', 'Shipping addresses', 'Medication types'],
+                correct: 0
+            },
+            {
+                text: 'Why is compliance important?',
+                options: ['Legal and regulatory requirements', 'Speed', 'Cost', 'Volume'],
+                correct: 0
+            },
             // Financial & Billing Questions (91-95)
-            'Which workflow handles refund requests?',
-            'What is the Stripe Refunds Workflow for?',
-            'What is the Itemized Receipt process for?',
-            'What is the Billing workflow used for?',
-            'How do you process refunds?',
+            {
+                text: 'Which workflow handles refund requests?',
+                options: ['Refunds workflow', 'Billing workflow', 'Order workflow', 'Lab workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the Stripe Refunds Workflow for?',
+                options: ['Process Stripe refunds', 'Process orders', 'Handle labs', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the Itemized Receipt process for?',
+                options: ['Provide itemized receipts', 'Process orders', 'Handle labs', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What is the Billing workflow used for?',
+                options: ['Handle billing issues', 'Process orders', 'Handle labs', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'How do you process refunds?',
+                options: ['Use Refunds workflow', 'Email only', 'Phone only', 'Not processed'],
+                correct: 0
+            },
             // Other Workflows Questions (96-100)
-            'What is the Referral process used for?',
-            'Which workflow handles Trustpilot requests?',
-            'What is the purpose of the Trustpilot workflow?',
-            'What does the "Unknown Leads" tag folder indicate?',
-            'What is the "Critical Escalations" tag folder for?'
+            {
+                text: 'What is the Referral process used for?',
+                options: ['Handle referrals', 'Process orders', 'Handle labs', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'Which workflow handles Trustpilot requests?',
+                options: ['Trustpilot workflow', 'Refund workflow', 'Billing workflow', 'Order workflow'],
+                correct: 0
+            },
+            {
+                text: 'What is the purpose of the Trustpilot workflow?',
+                options: ['Handle customer reviews', 'Process orders', 'Handle labs', 'Track shipments'],
+                correct: 0
+            },
+            {
+                text: 'What does the "Unknown Leads" tag folder indicate?',
+                options: ['Unidentified leads', 'Known customers', 'Refunds', 'Orders'],
+                correct: 0
+            },
+            {
+                text: 'What is the "Critical Escalations" tag folder for?',
+                options: ['Urgent issues requiring escalation', 'Regular orders', 'Refunds', 'Labs'],
+                correct: 0
+            }
         ];
 
-        return questionTexts.map((text, index) => ({
+        return questions.map((q, index) => ({
             id: `q${index + 1}`,
-            text: text,
+            text: q.text,
+            options: q.options,
+            correct: q.correct,
             number: index + 1
         }));
     }
@@ -383,31 +787,54 @@ class QuestionOfTheDay {
         document.getElementById('questionText').textContent = question.text;
         document.getElementById('questionNumber').textContent = `Question ${this.currentQuestionIndex + 1} of ${this.questionPool.length}`;
         
+        // Display multiple choice options
+        const optionsContainer = document.getElementById('multipleChoiceOptions');
+        optionsContainer.innerHTML = question.options.map((option, index) => `
+            <button class="choice-btn" data-index="${index}">
+                <span class="choice-letter">${String.fromCharCode(65 + index)}</span>
+                <span class="choice-text">${this.escapeHtml(option)}</span>
+            </button>
+        `).join('');
+        
+        // Add click handlers for choice buttons
+        optionsContainer.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove selected class from all buttons
+                optionsContainer.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+                // Add selected class to clicked button
+                btn.classList.add('selected');
+                // Enable submit button
+                document.getElementById('submitBtn').disabled = false;
+            });
+        });
+        
         // Update navigation buttons
         document.getElementById('prevBtn').disabled = false;
         document.getElementById('nextBtn').disabled = false;
+        
+        // Disable submit button until option is selected
+        document.getElementById('submitBtn').disabled = true;
         
         // Refresh answers for current question
         this.displayAnswers();
     }
 
     submitAnswer() {
-        const answerText = document.getElementById('answerInput').value.trim();
         const statusDiv = document.getElementById('answerStatus');
+        const selectedBtn = document.querySelector('.choice-btn.selected');
 
-        if (!answerText) {
+        if (!selectedBtn) {
             statusDiv.className = 'answer-status error';
-            statusDiv.textContent = 'Please enter an answer before submitting.';
+            statusDiv.textContent = 'Please select an answer before submitting.';
             statusDiv.style.display = 'block';
             return;
         }
 
         const question = this.getCurrentQuestion();
         const questionId = question.id;
-        
-        // Check if answer is correct
-        const correctAnswers = this.getCorrectAnswer(question.text);
-        const isCorrect = this.checkAnswer(answerText, correctAnswers);
+        const selectedIndex = parseInt(selectedBtn.dataset.index);
+        const selectedAnswer = question.options[selectedIndex];
+        const isCorrect = selectedIndex === question.correct;
         
         if (!this.answers[questionId]) {
             this.answers[questionId] = [];
@@ -415,35 +842,32 @@ class QuestionOfTheDay {
 
         const answer = {
             id: Date.now(),
-            text: answerText,
+            text: selectedAnswer,
+            selectedIndex: selectedIndex,
             timestamp: new Date().toISOString(),
             questionId: questionId,
             isCorrect: isCorrect,
-            correctAnswer: correctAnswers ? correctAnswers[0] : null
+            correctAnswer: question.options[question.correct]
         };
 
         this.answers[questionId].push(answer);
         this.saveAnswers();
 
-        // Clear input and show result
-        document.getElementById('answerInput').value = '';
+        // Clear selection and show result
+        document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+        document.getElementById('submitBtn').disabled = true;
         
         if (isCorrect === true) {
             statusDiv.className = 'answer-status success';
             statusDiv.innerHTML = '✓ <strong>Correct!</strong> Great job!';
-        } else if (isCorrect === false) {
-            statusDiv.className = 'answer-status error';
-            const correctAnswerText = correctAnswers ? `The correct answer is: <strong>${correctAnswers[0]}</strong>` : '';
-            statusDiv.innerHTML = `✗ <strong>Incorrect.</strong> ${correctAnswerText}`;
         } else {
-            // No answer key available (for custom questions)
-            statusDiv.className = 'answer-status success';
-            statusDiv.textContent = 'Your answer has been submitted successfully!';
+            statusDiv.className = 'answer-status error';
+            statusDiv.innerHTML = `✗ <strong>Incorrect.</strong> The correct answer is: <strong>${question.options[question.correct]}</strong>`;
         }
         
         statusDiv.style.display = 'block';
 
-        // Hide status after 5 seconds (longer for trivia feedback)
+        // Hide status after 5 seconds
         setTimeout(() => {
             statusDiv.style.display = 'none';
         }, 5000);
