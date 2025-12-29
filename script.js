@@ -58,38 +58,38 @@ class QuestionOfTheDay {
     }
 
     getDefaultQuestion() {
-        // Questions based on Fountain Workflows document - specific workflows and processes
+        // Trivia questions based on Fountain Workflows document - testing knowledge of workflows and processes
         const defaultQuestions = [
-            'How did you handle a Pharmacy Hub workflow today, and what went well?',
-            'What did you learn about the Absolute Pharmacy workflow process today?',
-            'How did you navigate the Belmar Pharmacy workflow today?',
-            'What challenge did you face with a General Refill request today?',
-            'How did you handle an Early Refill request following our workflow?',
-            'What did you learn about the Compliance Workflow today?',
-            'How did you process a Refunds Workflow request today?',
-            'What experience did you have with the Quest Diagnostics workflow today?',
-            'How did you use the Getlabs workflow to help a patient today?',
-            'What did you learn about the Sharing Medical Info workflow today?',
-            'How did you handle a Syringes workflow request today?',
-            'What improvement did you notice in the Intercom workflow today?',
-            'How did you use Retool to streamline a process today?',
-            'What did you learn about the Akute workflow today?',
-            'How did you handle a Labcorp workflow request today?',
-            'What challenge did you overcome in the Cancellation process today?',
-            'How did you handle a patient upset with a long order delay today?',
-            'What did you learn about routing orders through our pharmacy workflows today?',
-            'How did you ensure proper handling of Semaglutide, Enclomiphene, or Testosterone Cypionate orders today?',
-            'What did you learn about the Referral process today?',
-            'How did you handle a Trustpilot workflow request today?',
-            'What did you learn about the WhatsApp workflow today?',
-            'How did you process an Itemized Receipt request today?',
-            'What improvement did you make to a workflow process today?',
-            'How did you handle a General Tech Issues workflow today?',
-            'What did you learn about Controlled Substance handling today?',
-            'How did you ensure compliance with our pharmacy protocols today?',
-            'What patient communication through Intercom made a difference today?',
-            'How did you handle a billing or Stripe-related workflow today?',
-            'What workflow efficiency did you improve today?'
+            'Which pharmacy serves as a backup for Semaglutide, Enclomiphene, and Testosterone Cypionate?',
+            'True or False: Absolute Pharmacy requires signatures for delivery.',
+            'Which three states does Absolute Pharmacy NOT ship to?',
+            'Which pharmacies primarily fill Semaglutide, Enclomiphene, and Testosterone Cypionate?',
+            'True or False: We currently use Absolute Pharmacy for patient orders.',
+            'Why should Absolute Pharmacy only be used when partner pharmacies are unable to supply medications?',
+            'What is the Absolute Rx Portal used for?',
+            'Which pharmacy requires signatures for delivery?',
+            'Name the three medications that Absolute Pharmacy serves as backup for.',
+            'In which order stages cannot orders be cancelled?',
+            'What is the primary purpose of the Pharmacy Hub workflow?',
+            'Which workflow handles Quest Diagnostics lab orders?',
+            'What is the Getlabs workflow used for?',
+            'Which workflow handles sharing medical information?',
+            'What is the Syringes workflow used for?',
+            'Which platform workflow uses Retool?',
+            'What is the Akute workflow used for?',
+            'Which workflow handles Labcorp orders?',
+            'What is the purpose of the Compliance Workflow?',
+            'Which workflow handles refund requests?',
+            'What is the General Refill workflow for?',
+            'What is the Early Refill workflow for?',
+            'Which workflow handles cancellations?',
+            'What is the Referral process used for?',
+            'Which workflow handles Trustpilot requests?',
+            'What is the WhatsApp workflow used for?',
+            'What is the Itemized Receipt process for?',
+            'Which workflow handles General Tech Issues?',
+            'What does the Controlled Substance workflow handle?',
+            'Which workflow is used for Intercom phone calls?'
         ];
         
         // Use day of year to cycle through questions
@@ -332,61 +332,71 @@ class QuestionOfTheDay {
         if (stored) {
             return JSON.parse(stored);
         }
-        // Initialize with questions based on Fountain Workflows document - specific workflows and processes
+        // Initialize with trivia questions based on Fountain Workflows document - testing knowledge
         const today = new Date();
         const questions = [];
         const questionPool = [
-            // Pharmacy Workflows
-            'How did you handle a Pharmacy Hub workflow today, and what went well?',
-            'What did you learn about the Absolute Pharmacy workflow process today?',
-            'How did you navigate the Belmar Pharmacy workflow today?',
-            // Refill Processes
-            'What challenge did you face with a General Refill request today?',
-            'How did you handle an Early Refill request following our workflow?',
-            'What did you learn about processing refills efficiently today?',
-            // Compliance & Quality
-            'What did you learn about the Compliance Workflow today?',
-            'How did you ensure compliance with our pharmacy protocols today?',
-            'What quality check did you perform in a workflow today?',
-            // Financial & Billing
-            'How did you process a Refunds Workflow request today?',
-            'How did you handle a billing or Stripe-related workflow today?',
-            'What did you learn about the Itemized Receipt process today?',
-            // Lab Workflows
-            'What experience did you have with the Quest Diagnostics workflow today?',
-            'How did you use the Getlabs workflow to help a patient today?',
-            'How did you handle a Labcorp workflow request today?',
-            // Patient Communication
-            'What did you learn about the Sharing Medical Info workflow today?',
-            'What improvement did you notice in the Intercom workflow today?',
-            'What patient communication through Intercom made a difference today?',
-            'What did you learn about the WhatsApp workflow today?',
-            // Medication & Supplies
-            'How did you handle a Syringes workflow request today?',
-            'What did you learn about handling Semaglutide orders today?',
-            'How did you ensure proper handling of Enclomiphene or Testosterone Cypionate orders today?',
-            'What did you learn about Controlled Substance handling today?',
-            // Platform & Tools
-            'How did you use Retool to streamline a process today?',
-            'What did you learn about the Akute workflow today?',
-            'What system or tool helped you be more efficient today?',
-            // Order Management
-            'How did you handle a patient upset with a long order delay today?',
-            'What challenge did you overcome in the Cancellation process today?',
-            'How did you handle routing orders through our pharmacy workflows today?',
-            'What did you learn about order processing efficiency today?',
-            // Other Workflows
-            'What did you learn about the Referral process today?',
-            'How did you handle a Trustpilot workflow request today?',
-            'How did you handle a General Tech Issues workflow today?',
-            // General Process Improvement
-            'What workflow improvement did you implement or notice today?',
-            'What process did you streamline or optimize today?',
-            'How did you contribute to team efficiency today?',
-            'What collaboration helped solve a problem today?',
-            'What best practice did you follow or share with the team today?',
-            'What detail did you catch that prevented a potential issue?',
-            'How did you adapt when a workflow didn\'t go as planned today?'
+            // Pharmacy Trivia
+            'Which pharmacy serves as a backup for Semaglutide, Enclomiphene, and Testosterone Cypionate?',
+            'True or False: Absolute Pharmacy requires signatures for delivery.',
+            'Which three states does Absolute Pharmacy NOT ship to?',
+            'Which pharmacies primarily fill Semaglutide, Enclomiphene, and Testosterone Cypionate?',
+            'True or False: We currently use Absolute Pharmacy for patient orders.',
+            'Why should Absolute Pharmacy only be used when partner pharmacies are unable to supply medications?',
+            'What is the Absolute Rx Portal used for?',
+            'Which pharmacy requires signatures for delivery?',
+            'Name the three medications that Absolute Pharmacy serves as backup for.',
+            'What is the primary purpose of the Pharmacy Hub workflow?',
+            'What is the Belmar Pharmacy workflow used for?',
+            // Order Management Trivia
+            'In which order stages cannot orders be cancelled?',
+            'What should you do if an order is sent to Absolute Pharmacy?',
+            'What is the Cancellation workflow used for?',
+            'What is the General Refill workflow for?',
+            'What is the Early Refill workflow for?',
+            'What is the purpose of the "Patients Upset With Long Order" workflow?',
+            // Lab Workflows Trivia
+            'Which workflow handles Quest Diagnostics lab orders?',
+            'What is the Getlabs workflow used for?',
+            'Which workflow handles Labcorp orders?',
+            'What is the Labcorp Link workflow for?',
+            'What is the purpose of monitoring labs?',
+            // Communication Workflows Trivia
+            'Which workflow handles sharing medical information?',
+            'What is the Intercom workflow used for?',
+            'What is the WhatsApp workflow used for?',
+            'Which workflow handles Intercom phone calls?',
+            'What is the purpose of the Routing Workflow?',
+            // Medication & Supplies Trivia
+            'What is the Syringes workflow used for?',
+            'What is the General Medications workflow for?',
+            'What does the Controlled Substance workflow handle?',
+            'Which medications are primarily filled through Pharmacy Hub or Curexa?',
+            // Platform & Tools Trivia
+            'Which platform workflow uses Retool?',
+            'What is the Akute workflow used for?',
+            'What is the Retool workflow used for?',
+            'Which workflow handles General Tech Issues?',
+            // Compliance & Quality Trivia
+            'What is the purpose of the Compliance Workflow?',
+            'What does the Compliance Workflow ensure?',
+            // Financial & Billing Trivia
+            'Which workflow handles refund requests?',
+            'What is the Stripe Refunds Workflow for?',
+            'What is the Itemized Receipt process for?',
+            'What is the Billing workflow used for?',
+            // Other Workflows Trivia
+            'What is the Referral process used for?',
+            'Which workflow handles Trustpilot requests?',
+            'What is the purpose of the Trustpilot workflow?',
+            'What does the "Unknown Leads" tag folder indicate?',
+            'What is the "Critical Escalations" tag folder for?',
+            'What is the "Extra Medication" tag folder used for?',
+            // Process Knowledge Trivia
+            'What should you remember about Absolute Pharmacy\'s processing costs?',
+            'What is the difference between Absolute and Curexa regarding delivery signatures?',
+            'Which states are excluded from Absolute Pharmacy shipping?',
+            'What is the primary reason Absolute Pharmacy should be used sparingly?'
         ];
         
         // Create questions for the next 30 days
